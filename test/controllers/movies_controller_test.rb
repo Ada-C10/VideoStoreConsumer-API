@@ -75,4 +75,48 @@ class MoviesControllerTest < ActionDispatch::IntegrationTest
 
     end
   end
+
+  describe "create" do
+    let(:movie_data){
+      {
+        "title" => "Test Movie"
+      }
+    }
+
+    it "create a new a movie given valid data" do
+
+      expect{
+        post movies_path, params: movie_data
+      }.must_change "Movie.count", 1
+
+      must_respond_with :success
+
+
+      body = JSON.parse(response.body)
+      movie = Movie.find(body["id"].to_i)
+
+
+      expect(body).must_be_kind_of Hash
+      expect(body).must_include "id"
+
+      expect(movie.title).must_equal movie_data["title"]
+
+    end
+
+    it "returns an error for invalid movie data" do
+      # arrange
+      movie_data["title"] = nil
+
+      expect {
+        post movies_path, params: movie_data
+      }.wont_change "Movie.count"
+
+      body = JSON.parse(response.body)
+
+      expect(body).must_be_kind_of Hash
+      expect(body).must_include "errors"
+      # expect(body["errors"]).must_include "title"
+      must_respond_with :bad_request
+    end
+  end
 end
