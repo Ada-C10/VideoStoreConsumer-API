@@ -1,4 +1,4 @@
-
+require 'pry'
 class MovieWrapper
   BASE_URL = "https://api.themoviedb.org/3/"
   KEY = ENV["MOVIEDB_KEY"]
@@ -8,6 +8,7 @@ class MovieWrapper
   DEFAULT_IMG_URL = "http://lorempixel.com/185/278/"
 
   def self.search(query)
+
     url = BASE_URL + "search/movie?api_key=" + KEY + "&query=" + query
     puts url
     # puts url
@@ -15,6 +16,7 @@ class MovieWrapper
     if response["total_results"] == 0
       return []
     else
+
       puts response
       movies = response["results"].map do |result|
         self.construct_movie(result)
