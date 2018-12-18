@@ -26,9 +26,12 @@ class MoviesController < ApplicationController
       title: params['title'],
       overview: params['overview'],
       release_date: params['release_date'],
-      image_url: params['image_url'],
+      pic_url: params['pic_url'],
       external_id: params['external_id']
     )
+
+
+    puts movie.image_url
 
     if movie.save
       render status: :ok, json: {
@@ -36,7 +39,7 @@ class MoviesController < ApplicationController
         title: movie.title,
         overview: movie.overview,
         release_date: movie.release_date,
-        image_url: movie.image_url,
+        pic_url: movie.pic_url,
         external_id: movie.external_id
       }
     else
