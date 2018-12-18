@@ -13,6 +13,7 @@ class MovieTest < ActiveSupport::TestCase
 
   before do
     @movie = Movie.new(movie_data)
+    @duplicate_movie = Movie.new(movie_data)
   end
 
   describe "Constructor" do
@@ -26,6 +27,11 @@ class MovieTest < ActiveSupport::TestCase
 
     it "Has customers" do
       @movie.must_respond_to :customers
+    end
+
+    it "Will not create a movie if external_id is not unique" do
+      @duplicate_movie.save
+      expect(@duplicate_movie.errors.messages).present?
     end
   end
 
