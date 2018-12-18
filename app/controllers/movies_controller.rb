@@ -13,8 +13,10 @@ class MoviesController < ApplicationController
 
   def create
     @movie = Movie.find_by(title: params[:title])
+    data = MovieWrapper.search(params[:title])
 
-   if !@movie
+  #  if movie is not in our library, and also exists as a real movie in the external api, THEN add it
+   if !@movie && !data.empty?
      new_movie = Movie.new(movie_params)
 
      if new_movie.save
@@ -29,7 +31,7 @@ class MoviesController < ApplicationController
    else
      render json: {
          ok: false,
-         message: "Movie already exists in the library."
+         message: "Movie already exists in the library OR movie does not exist in this world."
          }, status: :bad_request
    end
 
