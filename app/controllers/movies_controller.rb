@@ -16,8 +16,8 @@ class MoviesController < ApplicationController
       title: params["title"],
       overview: params["overview"],
       release_date: params["release_date"],
-      image_url: params["poster_path"], #(api_result["poster_path"] ? self.construct_image_url(api_result["poster_path"]) : nil),
-      external_id: params["id"])
+      image_url: params["image_url"], #(api_result["poster_path"] ? self.construct_image_url(api_result["poster_path"]) : nil),
+      external_id: params["external_id"])
   end
 
   def show
