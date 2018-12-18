@@ -1,3 +1,5 @@
+require 'pry'
+
 class MoviesController < ApplicationController
   before_action :require_movie, only: [:show]
 
@@ -19,6 +21,23 @@ class MoviesController < ApplicationController
         methods: [:available_inventory]
         )
       )
+  end
+
+  def create
+    params["image_url"].slice! "https://image.tmdb.org/t/p/w185"
+
+    movie = Movie.new(
+      title: params["title"],
+      overview: params["overview"],
+      release_date: params["release_date"],
+      image_url: params["image_url"],
+      external_id: params["external_id"])
+
+    if movie.save
+      render status: :ok, json: { movie: movie }
+    else
+      render status: :bad_request, json: { errors: movie.errors.messages }
+    end
   end
 
   private
