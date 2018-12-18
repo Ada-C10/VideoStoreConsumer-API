@@ -9,8 +9,7 @@ class MovieWrapper
 
   def self.search(query)
     url = BASE_URL + "search/movie?api_key=" + KEY + "&query=" + query
-    puts url
-    # puts url
+
     response =  HTTParty.get(url)
     if response["total_results"] == 0
       return []
@@ -26,11 +25,12 @@ class MovieWrapper
   private
 
   def self.construct_movie(api_result)
+
     Movie.new(
       title: api_result["title"],
       overview: api_result["overview"],
       release_date: api_result["release_date"],
-      image_url: api_result["poster_path"], #(api_result["poster_path"] ? self.construct_image_url(api_result["poster_path"]) : nil),
+      poster_path: api_result["poster_path"],
       external_id: api_result["id"])
   end
 

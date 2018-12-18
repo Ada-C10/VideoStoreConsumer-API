@@ -34,7 +34,7 @@ end
   private
 
   def movie_params
-    params.permit(:title, :overview, :release_date, :inventory, :image_url, :external_id)
+    params.permit(:title, :overview, :release_date, :inventory, :external_id, :poster_path)
   end
 
   def require_movie
