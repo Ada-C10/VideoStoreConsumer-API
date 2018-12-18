@@ -21,6 +21,29 @@ class MoviesController < ApplicationController
       )
   end
 
+  def create
+    movie = Movie.new(
+      title: params['title'],
+      overview: params['overview'],
+      release_date: params['release_date'],
+      image_url: params['image_url'],
+      external_id: params['external_id']
+    )
+
+    if movie.save
+      render status: :ok, json: {
+        id: movie.id,
+        title: movie.title,
+        overview: movie.overview,
+        release_date: movie.release_date,
+        image_url: movie.image_url,
+        external_id: movie.external_id
+      }
+    else
+      render status: :bad_request, json: { errors: rental.errors.messages }
+    end
+  end
+
   private
 
   def require_movie
