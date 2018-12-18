@@ -5,9 +5,13 @@ one:
   overview: MyText
   release_date: 2017-01-11
   inventory: 4
+  external_id: 121323
+  image_url: http://lorempixel.com/185/278/
 
 two:
   title: MuchFilm
   overview: MyText
   release_date: 2017-01-11
   inventory: 7
+  external_id: 3545
+  image_url: http://lorempixel.com/185/278/
