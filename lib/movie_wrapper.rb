@@ -28,8 +28,7 @@ class MovieWrapper
 
   def self.get_movie(id)
 
-    url = BASE_URL + "movie/" + id + "?api_key=" + KEY
-
+    url = "#{BASE_URL}movie/#{id}?api_key=#{KEY}"
     response = HTTParty.get(url)
 
     if response["id"]
