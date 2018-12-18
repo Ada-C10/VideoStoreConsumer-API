@@ -20,7 +20,7 @@ class MoviesController < ApplicationController
         external_id: movie.external_id }, status: :ok
     else
       render json: {
-        message: movie.errors.messages
+        errors: movie.errors.messages
       }, status: :bad_request
     end
   end

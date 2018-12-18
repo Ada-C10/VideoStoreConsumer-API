@@ -78,8 +78,8 @@ class MoviesControllerTest < ActionDispatch::IntegrationTest
       body = JSON.parse(response.body)
 
       expect(body).must_be_kind_of Hash
-      expect(body).must_include "message"
-      expect(body["message"]).must_include "title"
+      expect(body).must_include "errors"
+      expect(body["errors"]).must_include "title"
       must_respond_with :bad_request
     end
 
