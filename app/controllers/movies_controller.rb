@@ -12,16 +12,25 @@ class MoviesController < ApplicationController
   end
 
   def create
-    movie = Movie.new(movie_params)
+    @movie = Movie.find_by(title: params[:title])
 
-    if movie.save
-      render json: movie.as_json(only: [:id]),
-      status: :ok
+    if !@movie
+      new_movie = Movie.new(movie_params)
+
+      if new_movie.save
+        render json: new_movie.as_json(only: [:id]),
+        status: :ok
+      else
+        render json: {
+          ok: false,
+          message: new_movie.errors.messages
+          }, status: :bad_request
+      end
     else
       render json: {
-        ok: false,
-        message: movie.errors.messages
-        }, status: :bad_request
+          ok: false,
+          message: "Movie already exists in the library."
+          }, status: :bad_request  
     end
   end
 
