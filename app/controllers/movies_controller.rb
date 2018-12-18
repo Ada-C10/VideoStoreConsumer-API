@@ -11,6 +11,15 @@ class MoviesController < ApplicationController
     render status: :ok, json: data
   end
 
+  def create
+    Movie.create(
+      title: params["title"],
+      overview: params["overview"],
+      release_date: params["release_date"],
+      image_url: params["poster_path"], #(api_result["poster_path"] ? self.construct_image_url(api_result["poster_path"]) : nil),
+      external_id: params["id"])
+  end
+
   def show
     render(
       status: :ok,
