@@ -19,9 +19,15 @@ class MoviesController < ApplicationController
         title: movie.title,
         external_id: movie.external_id }, status: :ok
     else
-      render json: {
-        errors: movie.errors.messages
-      }, status: :bad_request
+      if movie.errors.messages[:external_id] == ["has already been taken"]
+        render json: {
+          errors: "This movie has already been added to your film library."
+        }, status: :bad_request
+      else
+        render json: {
+          errors: movie.errors.messages
+        }, status: :bad_request
+      end
     end
   end
 
