@@ -88,7 +88,7 @@ class MoviesControllerTest < ActionDispatch::IntegrationTest
     }
 
     it "creates a new movie given valid data" do
-      
+
       expect {
         post movies_path, params: movie_data
       }.must_change "Movie.count", 1
@@ -120,6 +120,57 @@ class MoviesControllerTest < ActionDispatch::IntegrationTest
       expect(body["message"]).must_include "title"
       must_respond_with :bad_request
     end
+
+    it "returns an error for invalid movie data" do
+      # arrange
+      movie_data["overview"] = nil
+
+      expect {
+        post movies_path, params: { movie: movie_data }
+      }.wont_change "Movie.count"
+
+      body = JSON.parse(response.body)
+
+      expect(body).must_be_kind_of Hash
+      expect(body).must_include "message"
+      expect(body["message"]).must_include "overview"
+      must_respond_with :bad_request
+    end
+
+    it "returns an error for invalid movie data" do
+      # arrange
+      movie_data["release_date"] = nil
+
+      expect {
+        post movies_path, params: { movie: movie_data }
+      }.wont_change "Movie.count"
+
+      body = JSON.parse(response.body)
+
+      expect(body).must_be_kind_of Hash
+      expect(body).must_include "message"
+      expect(body["message"]).must_include "release_date"
+      must_respond_with :bad_request
+    end
+
+    it "returns an error for invalid movie data" do
+      # arrange
+      movie_data["external_id"] = nil
+
+      expect {
+        post movies_path, params: { movie: movie_data }
+      }.wont_change "Movie.count"
+
+      body = JSON.parse(response.body)
+
+      expect(body).must_be_kind_of Hash
+      expect(body).must_include "message"
+      expect(body["message"]).must_include "external_id"
+      must_respond_with :bad_request
+    end
+
+
+
 
   end
 end
