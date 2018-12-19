@@ -14,6 +14,7 @@ default: &default
 development:
   <<: *default
   database: <APPLICATION_NAME>_development
+  host: localhost
 # ...
 test:
   <<: *default
@@ -24,4 +25,3 @@ production:
   database: <APPLICATION_NAME>_production
   username: <APPLICATION_NAME>
   password: <%= ENV['<APPLICATION_NAME>_DATABASE_PASSWORD'] %>
-

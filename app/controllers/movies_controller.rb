@@ -24,7 +24,6 @@ class MoviesController < ApplicationController
 
   def create
     @movie = Movie.new(movie_params)
-    binding.pry
 
     @movie.image_url = movie_params["image_url"].slice(31..-1)
 
@@ -43,7 +42,7 @@ class MoviesController < ApplicationController
     private
 
     def movie_params
-      params.permit(:id, :title, :overview, :release_date, :image_url, :external_id, :inventory)
+      params.permit(:title, :overview, :release_date, :image_url, :external_id, :inventory)
     end
 
     def require_movie
