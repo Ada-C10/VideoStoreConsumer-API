@@ -7,10 +7,17 @@ class Customer < ApplicationRecord
   end
 
   def movies_checked_out
-    self.movies
-  end
+    outstanding_rentals = self.rentals.where(returned: false)
 
-  # def overdue_movies_checked_out
-  #   self.rentals.where(returned: false)
-  # end
+    checked_out = outstanding_rentals.map do |rental|
+      {
+        title: rental.movie.title,
+        checkout_date: rental.checkout_date,
+        due_date: rental.due_date,
+        overdue: (rental.due_date < Date.today ? true : false)
+      }
+    end
+
+    return checked_out
+  end
 end
