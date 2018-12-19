@@ -186,4 +186,84 @@ class RentalTest < ActiveSupport::TestCase
       Rental.overdue.length.must_equal 0
     end
   end
+
+  describe "all_returned" do
+    it "returns all returned rentals" do
+      # Start with a clean slate
+      Rental.destroy_all
+
+      outstanding = Rental.create!(
+        movie: movies(:one),
+        customer: customers(:one),
+        due_date: Date.today + 30,
+        returned: false
+      )
+      Rental.new(
+        movie: movies(:one),
+        customer: customers(:one),
+        due_date: Date.today - 10,
+        returned: true
+      ).save!(validate: false)
+
+      second = Rental.create!(
+        movie: movies(:one),
+        customer: customers(:two),
+        due_date: Date.today + 10,
+        returned: true
+      )
+      Rental.all_returned.length.must_equal 2
+      Rental.all_returned.last.must_equal second
+      Rental.all.count.must_equal 3
+    end
+  end
+
+  describe "all_outstanding_before_due" do
+    it "returns all outstanding rentals" do
+      # Start with a clean slate
+      Rental.destroy_all
+
+      first = Rental.create!(
+        movie: movies(:one),
+        customer: customers(:one),
+        due_date: Date.today + 10,
+        returned: false
+      )
+      second = Rental.create!(
+        movie: movies(:one),
+        customer: customers(:two),
+        due_date: Date.today + 20,
+        returned: false
+      )
+      returned = Rental.create!(
+        movie: movies(:two),
+        customer: customers(:two),
+        due_date: Date.today + 10,
+        returned: true
+      )
+      Rental.new(
+        movie: movies(:two),
+        customer: customers(:one),
+        due_date: Date.today - 30,
+        returned: false
+      ).save!(validate: false)
+      Rental.all_outstanding_before_due.length.must_equal 2
+      Rental.all_outstanding_before_due.first.must_equal first
+      Rental.all.count.must_equal 4
+    end
+
+    it "considers today's date as not yet overdue" do
+      # Start with a clean slate
+      Rental.destroy_all
+
+      Rental.new(
+        movie: movies(:one),
+        customer: customers(:one),
+        due_date: Date.today,
+        returned: false
+      ).save!(validate: false)
+      Rental.all_outstanding_before_due.length.must_equal 1
+      Rental.all.count.must_equal 1
+    end
+  end
+  
 end
