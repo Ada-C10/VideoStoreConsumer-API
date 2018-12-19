@@ -44,15 +44,28 @@ class RentalsController < ApplicationController
     render status: :ok, json: rentals
   end
 
-  def complete
-    rentals = Rental.complete.map do |rental|
+  def returned
+    rentals = Rental.returned.map do |rental|
       {
           title: rental.movie.title,
           customer_id: rental.customer_id,
           name: rental.customer.name,
           postal_code: rental.customer.postal_code,
           checkout_date: rental.checkout_date,
-          checkin_date: rental.checkin_date,
+          due_date: rental.due_date
+      }
+    end
+    render status: :ok, json: rentals
+  end
+
+  def out_ok
+    rentals = Rental.out_ok.map do |rental|
+      {
+          title: rental.movie.title,
+          customer_id: rental.customer_id,
+          name: rental.customer.name,
+          postal_code: rental.customer.postal_code,
+          checkout_date: rental.checkout_date,
           due_date: rental.due_date
       }
     end

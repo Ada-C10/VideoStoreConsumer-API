@@ -9,6 +9,9 @@ Rails.application.routes.draw do
   post "/rentals/:title/return", to: "rentals#check_in", as: "check_in"
   get "/rentals/overdue", to: "rentals#overdue", as: "overdue"
 
+  get "/rentals/returned", to: "rentals#returned", as: "returned"
+  get "/rentals/out-ok", to: "rentals#out_ok", as: "out_ok"
+
   root 'movies#index'
 
 end

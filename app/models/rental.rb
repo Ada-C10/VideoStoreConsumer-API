@@ -18,11 +18,11 @@ class Rental < ApplicationRecord
     self.where(returned: false).where("due_date < ?", Date.today).order(:due_date)
   end
 
-  def self.all_returned
+  def self.returned
     self.where(returned: true).order(:due_date)
   end
 
-  def self.all_outstanding_before_due
+  def self.out_ok
     self.where(returned: false).where("due_date >= ?", Date.today).order(:due_date)
   end
 

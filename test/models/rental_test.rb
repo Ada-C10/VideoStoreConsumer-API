@@ -187,7 +187,7 @@ class RentalTest < ActiveSupport::TestCase
     end
   end
 
-  describe "all_returned" do
+  describe "returned" do
     it "returns all returned rentals" do
       # Start with a clean slate
       Rental.destroy_all
@@ -211,14 +211,14 @@ class RentalTest < ActiveSupport::TestCase
         due_date: Date.today + 10,
         returned: true
       )
-      Rental.all_returned.length.must_equal 2
-      Rental.all_returned.last.must_equal second
+      Rental.returned.length.must_equal 2
+      Rental.returned.last.must_equal second
       Rental.all.count.must_equal 3
     end
   end
 
-  describe "all_outstanding_before_due" do
-    it "returns all outstanding rentals" do
+  describe "out_ok" do
+    it "returns all outstanding rentals that aren't due yet" do
       # Start with a clean slate
       Rental.destroy_all
 
@@ -246,8 +246,8 @@ class RentalTest < ActiveSupport::TestCase
         due_date: Date.today - 30,
         returned: false
       ).save!(validate: false)
-      Rental.all_outstanding_before_due.length.must_equal 2
-      Rental.all_outstanding_before_due.first.must_equal first
+      Rental.out_ok.length.must_equal 2
+      Rental.out_ok.first.must_equal first
       Rental.all.count.must_equal 4
     end
 
@@ -261,9 +261,9 @@ class RentalTest < ActiveSupport::TestCase
         due_date: Date.today,
         returned: false
       ).save!(validate: false)
-      Rental.all_outstanding_before_due.length.must_equal 1
+      Rental.out_ok.length.must_equal 1
       Rental.all.count.must_equal 1
     end
   end
-  
+
 end
