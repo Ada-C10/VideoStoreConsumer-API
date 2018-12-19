@@ -12,7 +12,17 @@ class MoviesController < ApplicationController
   end
 
   def create
-    movie = Movie.new(movie_params)
+    if movie_params[:image_url] != nil
+      url = movie_params[:image_url]
+      url = url.slice(31, url.length)
+    else
+      url = movie_params[:image_url]
+    end
+    movie = Movie.new({external_id: movie_params[:external_id],
+                        image_url: url,
+                        release_date: movie_params[:release_date],
+                        title: movie_params[:title],
+                        inventory: movie_params[:inventory]})
     if movie.save
       render json: {
         id: movie.id,
@@ -21,7 +31,8 @@ class MoviesController < ApplicationController
     else
       if movie.errors.messages[:external_id] == ["has already been taken"]
         render json: {
-          errors: "This movie has already been added to your film library."
+          errors: "Hmm...
+          We think you already have that movie in your film library."
         }, status: :bad_request
       else
         render json: {
@@ -29,6 +40,7 @@ class MoviesController < ApplicationController
         }, status: :bad_request
       end
     end
+
   end
 
   def show

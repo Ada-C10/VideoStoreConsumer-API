@@ -50,7 +50,7 @@ class MoviesControllerTest < ActionDispatch::IntegrationTest
       overview: "The strange woman claims the boy has a DNA strain which very likely offers the key to cure several crippling diseases. Tests will have to be done, but the key to save millions of lives is within the grasp of science through this DNA strain. Unsure what to think of all this and of this strange woman, the boy hesitantly agrees to the proposal, there's something exciting about this whole situation, surely the right choice was made.",
       release_date: "2010-11-05",
       inventory: 5,
-      image_url: "/81d8oyEFgj7FlxJqSDXWr8JH8kV.jpg",
+      image_url: "https://image.tmdb.org/t/p/w185/kMQPixpwZ9KDTxvjlXJ5HHJtYOG.jpg",
       external_id: 999999999
       }
     }
