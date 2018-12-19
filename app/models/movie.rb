@@ -10,7 +10,7 @@ class Movie < ApplicationRecord
     orig_value = read_attribute :image_url
     if !orig_value
       MovieWrapper::DEFAULT_IMG_URL
-    elsif orig_value.length === 31
+    elsif orig_value.length == 31
       MovieWrapper.construct_image_url(orig_value)
     else
       orig_value
