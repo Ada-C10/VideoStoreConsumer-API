@@ -1,0 +1,72 @@
+[
+{
+"checkout_date": "Mon, 03 Dec 2018",
+"due_date": "Tue, 18 Dec 2018",
+"returned":  false,
+"customer_id": 0,
+"movie_id": 0
+},
+{
+"checkout_date": "Mon, 03 Dec 2018",
+"due_date": "Mon, 17 Dec 2018",
+"returned":  false,
+"customer_id": 0,
+"movie_id": 0
+},
+{
+"checkout_date": "Mon, 27 Nov 2018",
+"due_date": "Tue, 18 Dec 2018",
+"returned":  false,
+"customer_id": 0,
+"movie_id": 0
+},
+{
+"checkout_date": "Tue, 27 Nov 2018",
+"due_date": "Tue, 18 Dec 2018",
+"returned":  false,
+"customer_id": 0,
+"movie_id": 0
+},
+{
+"checkout_date": "Tue, 04 Dec 2018",
+"due_date": "Tue, 18 Dec 2018",
+"returned":  false,
+"customer_id": 0,
+"movie_id": 0
+},
+{
+"checkout_date": "Mon, 03 Dec 2018",
+"due_date": "Tue, 18 Dec 2018",
+"returned":  false,
+"customer_id": 0,
+"movie_id": 0
+},
+{
+"checkout_date": "Sun, 26 Nov 2018",
+"due_date": "Mon, 17 Dec 2018",
+"returned":  false,
+"customer_id": 0,
+"movie_id": 0
+},
+{
+"checkout_date": "Wed, 28 Nov 2018",
+"due_date": "Sun, 16 Dec 2018",
+"returned":  false,
+"customer_id": 0,
+"movie_id": 0
+},
+{
+"checkout_date": "Wed, 28 Nov 2018",
+"due_date": "Sun, 16 Dec 2018",
+"returned":  false,
+"customer_id": 0,
+"movie_id": 0
+},
+{
+"checkout_date": "Wed, 28 Nov 2018",
+"due_date": "Sun, 16 Dec 2018",
+"returned":  false,
+"customer_id": 0,
+"movie_id": 0
+}
+]
