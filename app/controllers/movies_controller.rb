@@ -24,7 +24,7 @@ class MoviesController < ApplicationController
   end
 
   def create
-    movie = MovieWrapper.addToLibrary(movie_params)
+    movie = Movie.new(movie_params)
     if movie.save!
       render json: {id: movie.id,
         title: movie.title,
