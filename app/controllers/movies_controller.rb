@@ -14,7 +14,7 @@ class MoviesController < ApplicationController
   def create
     @movie = Movie.find_by(title: params[:title])
     data = MovieWrapper.search(params[:title])
-    
+
   # data exists for the sole purpose of when someone tries to add a movie NOT through our web app (ex: postman)
   # if movie is not in our library, and also exists as a real movie in the external api, THEN add it
    if !@movie && !data.empty?
