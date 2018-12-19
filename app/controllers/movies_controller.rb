@@ -23,19 +23,38 @@ class MoviesController < ApplicationController
 
   def create
 
-    movie = Movie.new(movie_params)
+    if Movie.find_by(title: movie_params[:title]) == nil
+      binding.pry
+      movie = Movie.new(movie_params)
 
-    if movie.save
-      render json: { id: movie.id }, status:  :ok
+      if movie.save
+        binding.pry
+        render json: { id: movie.id }, status:  :ok
+      else
+        render json: {
+          errors: {
+            title: ["Could not create '#{movie_params[:title]}' Movie"]
+          },
+          message: movie.errors.messages
+          }, status: :bad_request
+      end
     else
       render json: {
         errors: {
-          title: ["Could not create '#{movie_params[:title]}' Movie"]
-        },
-        message: movie.errors.messages
-        }, status: :bad_request
-      end
+          title: ["movie exists in db"]
+        }
+      }
+
     end
+  end
+  #
+  #   else
+  #     render json: {
+  #       errors: {
+  #         title: ["Movie:'#{movie_params[:title]}' already exists in own database"]
+  #       }
+  #   end
+  # end
 
     def destroy
     end
@@ -51,7 +70,7 @@ class MoviesController < ApplicationController
     end
 
     def movie_params
-      params.permit(:title, :overview, :image_url, :release_date)
+      params.permit(:title, :overview, :image_url, :release_date, :id)
     end
 
   end
