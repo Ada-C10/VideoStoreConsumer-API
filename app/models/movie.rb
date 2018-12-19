@@ -16,4 +16,6 @@ class Movie < ApplicationRecord
       orig_value
     end
   end
+
+  
 end
