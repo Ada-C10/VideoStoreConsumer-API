@@ -1,4 +1,5 @@
 require 'test_helper'
+require 'pry'
 
 class RentalTest < ActiveSupport::TestCase
   let(:rental_data) {
@@ -263,6 +264,42 @@ class RentalTest < ActiveSupport::TestCase
       ).save!(validate: false)
       Rental.out_ok.length.must_equal 1
       Rental.all.count.must_equal 1
+    end
+  end
+
+  describe "all rentals" do
+    it "all rentals = overdue + returned + out_ok" do
+      # Start with a clean slate
+      Rental.destroy_all
+
+      out_ok = Rental.create!(
+        movie: movies(:one),
+        customer: customers(:one),
+        due_date: Date.today + 10,
+        returned: true
+      )
+      # Overdue rental:
+      Rental.new(
+        movie: movies(:one),
+        customer: customers(:two),
+        due_date: Date.today - 10,
+        returned: false
+      ).save!(validate: false)
+      returned_due_later = Rental.create!(
+        movie: movies(:two),
+        customer: customers(:two),
+        due_date: Date.today + 10,
+        returned: true
+      )
+      # Returned rental due in the past:
+      Rental.new(
+        movie: movies(:two),
+        customer: customers(:one),
+        due_date: Date.today - 10,
+        returned: true
+      ).save!(validate: false)
+      expected_count = (Rental.overdue.length + Rental.returned.length + Rental.out_ok.length)
+      Rental.all.count.must_equal expected_count
     end
   end
 
