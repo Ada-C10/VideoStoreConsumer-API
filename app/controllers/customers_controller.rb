@@ -18,7 +18,28 @@ class CustomersController < ApplicationController
     )
   end
 
-private
+  def create
+
+    customer = Customer.new(customer_params)
+
+    if customer.save
+      render(
+        status: :ok, json: customer.as_json( only: [:name] )
+      )
+    else
+      #errors
+      render(
+        status: :bad_request, json: {errors: {customer: "bad data, somehow"}}
+      )
+    end
+  end
+
+  private
+
+    def customer_params
+      params.permit(:name, :registered_at, :address, :city, :state, :postal_code, :phone, :account_credit)
+    end
+
   def parse_query_args
     errors = {}
     @sort = params[:sort]
