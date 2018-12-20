@@ -20,7 +20,7 @@ class CustomersController < ApplicationController
 
   def create
 
-    customer = Customer.new(name: params[:name])
+    customer = Customer.new(customer_params)
 
     if customer.save
       render(
@@ -34,7 +34,12 @@ class CustomersController < ApplicationController
     end
   end
 
-private
+  private
+
+    def customer_params
+      params.permit(:name, :registered_at, :address, :city, :state, :postal_code, :phone, :account_credit)
+    end
+
   def parse_query_args
     errors = {}
     @sort = params[:sort]
