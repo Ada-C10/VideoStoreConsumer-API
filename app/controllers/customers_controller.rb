@@ -18,6 +18,22 @@ class CustomersController < ApplicationController
     )
   end
 
+  def create
+
+    customer = Customer.new(name: params[:name])
+
+    if customer.save
+      render(
+        status: :ok, json: customer.as_json( only: [:name] )
+      )
+    else
+      #errors
+      render(
+        status: :bad_request, json: {errors: {customer: "bad data, somehow"}}
+      )
+    end
+  end
+
 private
   def parse_query_args
     errors = {}
