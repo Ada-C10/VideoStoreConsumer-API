@@ -8,7 +8,7 @@ class MoviesController < ApplicationController
      render json: movie.as_json(only: [:id]), status: :ok
    else
      render json: {
-       error: movie.errors.messages
+       errors: movie.errors.messages
      }, status: :bad_request
    end
  end
@@ -37,11 +37,11 @@ class MoviesController < ApplicationController
  private
 
  def require_movie
-   @movie = Movie.find_by(title: params[:title])
-   unless @movie
-     render status: :not_found, json: { error: { title: [“No movie with title #{params[“title”]}“] } }
-   end
- end
+    @movie = Movie.find_by(title: params[:title])
+    unless @movie
+      render status: :not_found, json: { errors: { title: ["No movie with title #{params["title"]}"] } }
+    end
+  end
 
  def movie_params
    params.permit(:title, :overview, :release_date, :image_url, :external_id)
