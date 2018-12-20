@@ -36,7 +36,7 @@ class MoviesController < ApplicationController
       else
         #errors
         render(
-          status: :bad_request, json: {errors: {movie: "bad data, somehow"}}
+          status: :bad_request, json: {errors: {id: 'must be present'}}
         )
       end
     end
