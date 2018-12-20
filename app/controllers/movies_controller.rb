@@ -22,18 +22,23 @@ class MoviesController < ApplicationController
   end
 
   def create
-    movie = MovieWrapper.get_movie(params[:id])
-
-    if movie
-      movie.save
-      render(
-        status: :ok, json: movie.as_json( only: [:title] )
-      )
+    movie_exists = Movie.find_by(external_id: params[:id])
+    if movie_exists
+      render status: :bad_request, json: {errors: {movie: "Movie already exists in library"}}
     else
-      #errors
-      render(
-        status: :bad_request, json: {errors: {movie: "bad data, somehow"}}
-      )
+      movie = MovieWrapper.get_movie(params[:id])
+
+      if movie
+        movie.save
+        render(
+          status: :ok, json: movie.as_json( only: [:title] )
+        )
+      else
+        #errors
+        render(
+          status: :bad_request, json: {errors: {movie: "bad data, somehow"}}
+        )
+      end
     end
   end
 
