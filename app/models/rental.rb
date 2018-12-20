@@ -15,7 +15,15 @@ class Rental < ApplicationRecord
   end
 
   def self.overdue
-    self.where(returned: false).where("due_date < ?", Date.today)
+    self.where(returned: false).where("due_date < ?", Date.today).order(:due_date)
+  end
+
+  def self.returned
+    self.where(returned: true).order(:due_date)
+  end
+
+  def self.out_ok
+    self.where(returned: false).where("due_date >= ?", Date.today).order(:due_date)
   end
 
 private

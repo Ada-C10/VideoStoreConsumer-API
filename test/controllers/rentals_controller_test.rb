@@ -90,7 +90,7 @@ class RentalsControllerTest < ActionDispatch::IntegrationTest
       @rental.returned.must_equal true
     end
 
-    it "can check out a rental and return it" do 
+    it "can check out a rental and return it" do
       # Arrange
       Rental.destroy_all
       customer = Customer.first
@@ -117,11 +117,11 @@ class RentalsControllerTest < ActionDispatch::IntegrationTest
       expect(rental.returned).must_equal true
 
 
-      
+
 
 
     end
-     
+
     it "requires a valid movie title" do
       post check_in_path(title: "does not exist"), params: {
         customer_id: @rental.customer.id
@@ -273,4 +273,113 @@ class RentalsControllerTest < ActionDispatch::IntegrationTest
       end
     end
   end
+
+  describe "returned" do
+
+    it "Returns a JSON array" do
+      get returned_path
+      must_respond_with :success
+      @response.headers['Content-Type'].must_include 'json'
+
+      # Attempt to parse
+      data = JSON.parse @response.body
+      data.must_be_kind_of Array
+    end
+
+    it "Returns an empty array if no rentals returned" do
+      # Make sure there's none returned
+      Rental.all.each do |r|
+        r.returned = false
+        r.save!
+      end
+
+      get returned_path
+      must_respond_with :success
+
+      data = JSON.parse @response.body
+      data.must_be_kind_of Array
+      data.length.must_equal 0
+    end
+
+    it "Returns expected fields" do
+      # Make sure we get something back
+      first = Rental.first
+      first.returned = true
+      first.save!
+      Rental.returned.length.must_be :>, 0
+
+      get returned_path
+      must_respond_with :success
+
+      data = JSON.parse @response.body
+      data.must_be_kind_of Array
+      data.length.must_equal Rental.returned.length
+
+      data.each do |rental|
+        rental.must_be_kind_of Hash
+        rental.must_include "title"
+        rental.must_include "customer_id"
+        rental.must_include "name"
+        rental.must_include "postal_code"
+        rental.must_include "checkout_date"
+        rental.must_include "due_date"
+      end
+    end
+  end
+
+  describe "out_ok" do
+
+    it "Returns a JSON array" do
+      get out_ok_path
+      must_respond_with :success
+      @response.headers['Content-Type'].must_include 'json'
+
+      # Attempt to parse
+      data = JSON.parse @response.body
+      data.must_be_kind_of Array
+    end
+
+    it "Returns an empty array if no checked-out rentals currently in good standing" do
+      # Make sure they're all either checked out and overdue,
+      # or checked out with a due date in the past
+      Rental.all.each do |r|
+        r.due_date = Date.today - 30
+        r.save!
+      end
+
+      get out_ok_path
+      must_respond_with :success
+
+      data = JSON.parse @response.body
+      data.must_be_kind_of Array
+      data.length.must_equal 0
+    end
+
+    it "Returns expected fields" do
+      # Make sure we get something back
+      first = Rental.first
+      first.due_date = Date.today + 30
+      first.returned = false
+      first.save!
+      Rental.out_ok.length.must_be :>, 0
+
+      get out_ok_path
+      must_respond_with :success
+
+      data = JSON.parse @response.body
+      data.must_be_kind_of Array
+      data.length.must_equal Rental.out_ok.length
+
+      data.each do |rental|
+        rental.must_be_kind_of Hash
+        rental.must_include "title"
+        rental.must_include "customer_id"
+        rental.must_include "name"
+        rental.must_include "postal_code"
+        rental.must_include "checkout_date"
+        rental.must_include "due_date"
+      end
+    end
+  end
+
 end
