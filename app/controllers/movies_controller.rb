@@ -19,6 +19,7 @@ class MoviesController < ApplicationController
       url = movie_params[:image_url]
     end
     movie = Movie.new({external_id: movie_params[:external_id],
+                        overview: movie_params[:overview],
                         image_url: url,
                         release_date: movie_params[:release_date],
                         title: movie_params[:title],
@@ -27,6 +28,10 @@ class MoviesController < ApplicationController
       render json: {
         id: movie.id,
         title: movie.title,
+        overview: movie.overview,
+        image_url: movie.image_url,
+        release_date: movie.release_date,
+        inventory: movie.inventory,
         external_id: movie.external_id }, status: :ok
     else
       if movie.errors.messages[:external_id] == ["has already been taken"]
