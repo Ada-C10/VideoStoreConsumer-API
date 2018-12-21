@@ -17,6 +17,7 @@ gem 'httparty'
 gem 'awesome_print'
 gem 'will_paginate'
 gem "active_model_serializers", require: true
+gem 'react-rails'
 
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 4.0'
