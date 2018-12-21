@@ -10,7 +10,6 @@ class MovieWrapper
   def self.search(query)
     url = BASE_URL + "search/movie?api_key=" + KEY + "&query=" + query
     puts url
-    # puts url
     response =  HTTParty.get(url)
     if response["total_results"] == 0
       return []
@@ -37,5 +36,9 @@ class MovieWrapper
   def self.construct_image_url(img_name)
     return BASE_IMG_URL + DEFAULT_IMG_SIZE + img_name
   end
+
+  # def self.construct_image_url_new(img_name)
+  #   return DEFAULT_IMG_SIZE + img_name
+  # end
 
 end
