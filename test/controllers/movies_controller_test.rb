@@ -75,4 +75,6 @@ class MoviesControllerTest < ActionDispatch::IntegrationTest
 
     end
   end
+
+
 end
