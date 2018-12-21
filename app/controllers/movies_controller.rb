@@ -25,10 +25,10 @@ class MoviesController < ApplicationController
 
 
   def create
-    if Movie.find_by(title: movie_params[:title])
+    
+    if !Movie.find_by(title: movie_params[:title])
       @movie = Movie.new(movie_params)
       @movie.image_url = movie_params["image_url"].slice(31..-1)
-      binding.pry
       if @movie.save
         render json: { id: @movie.id }, status:  :ok
       else
