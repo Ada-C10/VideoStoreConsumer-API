@@ -21,7 +21,24 @@ class MoviesController < ApplicationController
       )
   end
 
+  def create
+    # binding.pry
+    movie = Movie.new(movie_params)
+    # movie.available_inventory = movie.inventory
+    # binding.pry
+    if movie.save
+      # render json: { id: movie.id }, status: :ok
+      render json: movie.as_json(only: [:title, :overview, :release_date, :image_url, :external_id]), status: :ok
+    else
+      render_error(:bad_request, movie.errors.messages)
+    end
+  end
+
   private
+
+  def movie_params
+    params.permit(:title, :overview, :release_date, :image_url, :external_id)
+  end
 
   def require_movie
     @movie = Movie.find_by(title: params[:title])
