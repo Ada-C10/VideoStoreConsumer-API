@@ -21,6 +21,25 @@ class MoviesController < ApplicationController
       )
   end
 
+
+  def create
+    if Movie.find_by(title: movie_params[:title])
+      movie = Movie.new(movie_params)
+
+      if movie.save
+        render json: { id: movie.id }, status:  :ok
+      else
+        render json: { ok: false, errors: movie.errors.messages}, status: :bad_request
+      end
+    else
+      render json:{
+        errors:{
+          title: ["movie exists indb"]
+        }
+      }
+    end
+  end
+
   private
 
   def require_movie
