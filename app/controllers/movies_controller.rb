@@ -26,7 +26,7 @@ class MoviesController < ApplicationController
     if Movie.find_by(title: movie_params[:title])
       @movie = Movie.new(movie_params)
       @movie.image_url = movie_parmas["image_url"].slice(31..-1)
-
+    
       if @movie.save
         render json: { id: @movie.id }, status:  :ok
       else
