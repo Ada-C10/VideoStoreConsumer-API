@@ -18,13 +18,14 @@ class CustomersController < ApplicationController
     )
   end
 
+
   def create
 
     customer = Customer.new(customer_params)
 
     if customer.save
       render(
-        status: :ok, json: customer.as_json( only: [:name] )
+        status: :ok, json: customer.as_json( only: [:name, :id] )
       )
     else
       #errors
