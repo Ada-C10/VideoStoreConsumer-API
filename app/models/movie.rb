@@ -7,7 +7,7 @@ class Movie < ApplicationRecord
   end
 
   def image_url
-    orig_value = read_attribute :image_url
+    orig_value = read_attribute :pic_url
     if !orig_value
       MovieWrapper::DEFAULT_IMG_URL
     elsif external_id

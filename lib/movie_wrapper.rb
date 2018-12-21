@@ -1,7 +1,7 @@
 
 class MovieWrapper
   BASE_URL = "https://api.themoviedb.org/3/"
-  KEY = ENV["MOVIEDB_KEY"]
+  KEY = ENV["API_KEY"]
 
   BASE_IMG_URL = "https://image.tmdb.org/t/p/"
   DEFAULT_IMG_SIZE = "w185"
@@ -30,7 +30,7 @@ class MovieWrapper
       title: api_result["title"],
       overview: api_result["overview"],
       release_date: api_result["release_date"],
-      image_url: api_result["poster_path"], #(api_result["poster_path"] ? self.construct_image_url(api_result["poster_path"]) : nil),
+      pic_url: api_result["poster_path"], #(api_result["poster_path"] ? self.construct_image_url(api_result["poster_path"]) : nil),
       external_id: api_result["id"])
   end
 
