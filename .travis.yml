@@ -1,0 +1,14 @@
+language: ruby
+rvm:
+- 2.2
+- jruby
+
+deploy:
+  provider: heroku
+  api_key:
+    secure: GItCjV2InWRINoetFPfjsKkbGrxkpEzBVudcXAaZb9sQxhG6Sqg3T6TqRyRKheY6aHJMQyjFCtxsRUbGV3p/MZJpFDOTFsor/V08yjixIy4OGOvEhp69f7tlIvJ6lfGaftv9Jd/dhV1ZfbSLXvvVDBbsDJP3OhY9gt34SSu0IfajDvvPK+JfaYr96KlEITFZVFA+dtU5KKbuUE8+wRJF2wRx1ZDXIbaG4V3sLykajm8wqxTqdcb5uDXll4zz8/s5xNaKSufYMcTeUiUpH/dvxFTn82ydT+xEbRL6MoMCWCbtyjVcddeJ/8gfnkM5ka+pNnTDv9u2nM6XMhJibdSqWWgWMkNQeuFpD7rfh3sn70+RTLtHbLqTWG7vDHiMamfGpVret1CDM2/naAesiiwhER8KR1gm1bPNEeSGn+WHKJHFiWfgVehfIeYRaYxaoXiZ6hCYHH0rmvFzSRYMpAUZyEsTt71rAUxi6iScV6K5pKvglnsKIbOUoQoixKcw4auQiwZYSqVh0Q/D1w6wZRi1WIJK7kvAF36A/1NNzJSykCVHZz4xQyXZ4i10PfmLtgSnv+VsNTXq9zXEwoMnmZI6SrpTPHW68+PSy/Vq35gQHp0u4dLRCODUe9V3aMjJgk+niZhIS3SXSmQjHrmaJyp4iuglE96iNUV0B2mOig80tJs=
+  app: rails-videostore-api
+  run:
+      - "sleep 15"
+      - "rake db:migrate"
+      - "run rake db:seed"
