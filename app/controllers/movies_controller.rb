@@ -1,3 +1,5 @@
+require 'pry'
+
 class MoviesController < ApplicationController
   before_action :require_movie, only: [:show]
 
@@ -25,8 +27,8 @@ class MoviesController < ApplicationController
   def create
     if Movie.find_by(title: movie_params[:title])
       @movie = Movie.new(movie_params)
-      @movie.image_url = movie_parmas["image_url"].slice(31..-1)
-    
+      @movie.image_url = movie_params["image_url"].slice(31..-1)
+      binding.pry
       if @movie.save
         render json: { id: @movie.id }, status:  :ok
       else
@@ -44,7 +46,7 @@ class MoviesController < ApplicationController
   private
 
   def movie_params
-    parms.permit(:title, :overview, :image_url, :release_date, :external_id, :inventory)
+    params.permit(:title, :overview, :image_url, :release_date, :external_id, :inventory)
   end
 
   def require_movie
