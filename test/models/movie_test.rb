@@ -6,7 +6,9 @@ class MovieTest < ActiveSupport::TestCase
       "title": "Hidden Figures",
       "overview": "Some text",
       "release_date": "1960-06-16",
-      "inventory": 8
+      "inventory": 8,
+      "external_id": 343,
+      "image_url": "http://lorempixel.com/185/278/"
     }
   }
 
