@@ -23,6 +23,7 @@ class MovieWrapper
     end
   end
 
+
   private
 
   def self.construct_movie(api_result)
@@ -32,10 +33,11 @@ class MovieWrapper
       release_date: api_result["release_date"],
       image_url: api_result["poster_path"], #(api_result["poster_path"] ? self.construct_image_url(api_result["poster_path"]) : nil),
       external_id: api_result["id"])
-  end
 
-  def self.construct_image_url(img_name)
-    return BASE_IMG_URL + DEFAULT_IMG_SIZE + img_name
-  end
+    end
 
-end
+    def self.construct_image_url(img_name)
+      return BASE_IMG_URL + DEFAULT_IMG_SIZE + img_name
+    end
+
+  end
