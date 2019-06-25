@@ -17,8 +17,29 @@ class MoviesController < ApplicationController
       json: @movie.as_json(
         only: [:title, :overview, :release_date, :inventory],
         methods: [:available_inventory]
-        )
       )
+    )
+  end
+
+  def create
+    movie_exists = Movie.find_by(external_id: params[:id])
+    if movie_exists
+      render status: :bad_request, json: {errors: {movie: "Movie already exists in library"}}
+    else
+      movie = MovieWrapper.get_movie(params[:id])
+
+      if movie
+        movie.save
+        render(
+          status: :ok, json: movie.as_json( only: [:title] )
+        )
+      else
+        #errors
+        render(
+          status: :bad_request, json: {errors: {id: 'must be present'}}
+        )
+      end
+    end
   end
 
   private

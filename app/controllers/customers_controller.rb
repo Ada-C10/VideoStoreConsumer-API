@@ -10,7 +10,7 @@ class CustomersController < ApplicationController
       data = Customer.all
     end
 
-    data = data.paginate(page: params[:p], per_page: params[:n])
+    # data = data.paginate(page: params[:p], per_page: params[:n])
 
     render json: data.as_json(
       only: [:id, :name, :registered_at, :address, :city, :state, :postal_code, :phone, :account_credit],
@@ -18,7 +18,29 @@ class CustomersController < ApplicationController
     )
   end
 
-private
+
+  def create
+
+    customer = Customer.new(customer_params)
+
+    if customer.save
+      render(
+        status: :ok, json: customer.as_json( only: [:name, :id] )
+      )
+    else
+      #errors
+      render(
+        status: :bad_request, json: {errors: {customer: customer.errors.messages }}
+      )
+    end
+  end
+
+  private
+
+    def customer_params
+      params.permit(:name, :registered_at, :address, :city, :state, :postal_code, :phone, :account_credit)
+    end
+
   def parse_query_args
     errors = {}
     @sort = params[:sort]

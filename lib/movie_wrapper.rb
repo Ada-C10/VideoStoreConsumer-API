@@ -1,4 +1,3 @@
-
 class MovieWrapper
   BASE_URL = "https://api.themoviedb.org/3/"
   KEY = ENV["MOVIEDB_KEY"]
@@ -8,18 +7,33 @@ class MovieWrapper
   DEFAULT_IMG_URL = "http://lorempixel.com/185/278/"
 
   def self.search(query)
+
     url = BASE_URL + "search/movie?api_key=" + KEY + "&query=" + query
+
     puts url
     # puts url
     response =  HTTParty.get(url)
     if response["total_results"] == 0
       return []
     else
+
       puts response
       movies = response["results"].map do |result|
         self.construct_movie(result)
       end
       return movies
+    end
+  end
+
+  def self.get_movie(id)
+
+    url = "#{BASE_URL}movie/#{id}?api_key=#{KEY}"
+    response = HTTParty.get(url)
+
+    if response["id"]
+      return self.construct_movie(response)
+    else
+      return nil
     end
   end
 
@@ -32,10 +46,10 @@ class MovieWrapper
       release_date: api_result["release_date"],
       image_url: api_result["poster_path"], #(api_result["poster_path"] ? self.construct_image_url(api_result["poster_path"]) : nil),
       external_id: api_result["id"])
-  end
+    end
 
-  def self.construct_image_url(img_name)
-    return BASE_IMG_URL + DEFAULT_IMG_SIZE + img_name
-  end
+    def self.construct_image_url(img_name)
+      return BASE_IMG_URL + DEFAULT_IMG_SIZE + img_name
+    end
 
-end
+  end
